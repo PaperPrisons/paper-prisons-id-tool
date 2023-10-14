@@ -13,24 +13,41 @@ const Form = ({ data = {}, onSubmit = () => {} }) => {
   const [prev, setPrev] = useState(null);
   const [current, setCurrent] = useState();
   const [result, setResult] = useState({});
+  const [nextDynamicId, setNextDynamicId] = useState(null);
 
   const onChange = (id, value) => {
     setResult({
       ...result,
       [id]: value,
     });
-    const staticId = data.dynamic[id].staticId;
+    const question = data.dynamic[id];
+    console.log(data.dynamic);
+    const staticId = question.staticId;
+    let nextDynamicIdFromCurrent = null;
+    if (question.isStatic && data.dynamic[value]) {
+      nextDynamicIdFromCurrent = value;
+    } else if (
+      !question.isStatic &&
+      data.dynamic[`${id}${data.dynamic[value]}`]
+    ) {
+      nextDynamicIdFromCurrent = `${id}${data.dynamic[value]}`;
+    }
+    if (nextDynamicIdFromCurrent) {
+      setNextDynamicId(nextDynamicIdFromCurrent);
+    }
     if (staticId < data.static.length - 1) {
       setPrev(current);
       setCurrent(data.static[staticId + 1]);
+    } else if (!end && !nextDynamicIdFromCurrent) {
+      setPrev(current);
+      setCurrent(data.dynamic[nextDynamicIdFromCurrent || nextDynamicId]);
     } else {
-      console.log("Finished static questions");
+      setEnd(true);
     }
   };
 
   useEffect(() => {
-    const staticQuestions = data.static?.filter((q) => q.flowType === "Static");
-    console.log(staticQuestions);
+    const staticQuestions = data.static;
     if (staticQuestions && staticQuestions.length > 0) {
       setCurrent(staticQuestions[0]);
     }
@@ -38,11 +55,13 @@ const Form = ({ data = {}, onSubmit = () => {} }) => {
 
   return (
     <div className="dynamic-form">
-      {current &&
+      {!end &&
+        current &&
         React.createElement(fieldComponents[current.type], {
           ...current,
           onChange,
         })}
+      {end && <pre>{JSON.stringify(result, null, 4)}</pre>}
     </div>
   );
 };

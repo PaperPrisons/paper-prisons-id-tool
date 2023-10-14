@@ -24,7 +24,7 @@ export default function App() {
             staticId: index,
             title: item.Question,
             type: item.Type,
-            flowType: item.QuestionFlowType,
+            isStatic: item.QuestionFlowType === "Static",
             options: Object.keys(item)
               .filter((key) => key.startsWith("A"))
               .map((key) => {
@@ -38,8 +38,8 @@ export default function App() {
                 return { label: rawOption, value: rawOption };
               }),
           };
-          questions.dynamic[item["Unique ID"]] = question;
-          if (item.QuestionFlowType === "Static") {
+          questions.dynamic[question.id] = question;
+          if (question.isStatic) {
             questions.static.push(question);
           }
         });
