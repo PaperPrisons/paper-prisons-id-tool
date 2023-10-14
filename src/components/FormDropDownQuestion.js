@@ -5,13 +5,14 @@ const FormDropDownQuestion = ({
   title = "",
   options = [],
   value = "",
-  onChange = () => {}
+  onChange = () => {},
 }) => {
   const [active, setActive] = useState(false);
   const [checked, setChecked] = useState(value);
   const onOptionSelected = (v) => {
     setChecked(v);
     setActive(false);
+    console.log(id, v);
     onChange(id, v);
   };
   const onOptionsToggle = () => setActive(!active);
@@ -30,12 +31,12 @@ const FormDropDownQuestion = ({
           {options.map((v, index) => (
             <li
               key={index}
-              onClick={() => onOptionSelected(v)}
+              onClick={() => onOptionSelected(v.value)}
               className={
                 checked === v ? "dynamic-form-select-field-option-active" : ""
               }
             >
-              {v}
+              {v.label}
             </li>
           ))}
         </ul>

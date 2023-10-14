@@ -6,7 +6,7 @@ const FormRadioButtonQuestion = ({
   title = "",
   options = [],
   value = "",
-  onChange = () => {}
+  onChange = () => {},
 }) => {
   const [checked, setChecked] = useState(value);
   const onCheckedHandler = (v) => {
@@ -19,12 +19,12 @@ const FormRadioButtonQuestion = ({
         dangerouslySetInnerHTML={{ __html: title }}
         className="questionTitle"
       />
-      {options.map((option, idx) => {
+      {options.map((option) => {
         return (
           <FormRadioButtonField
-            key={`${idx}`}
-            label={option}
-            checked={checked === option}
+            key={option.label}
+            label={option.label}
+            checked={checked === option.value}
             onChange={onCheckedHandler}
           />
         );

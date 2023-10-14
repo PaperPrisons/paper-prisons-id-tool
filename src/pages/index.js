@@ -2,26 +2,12 @@ import React, { useEffect, useState } from "react";
 import PublicGoogleSheetsParser from "public-google-sheets-parser";
 import Form from "../components/Form";
 
-function linkify(text) {
-  let urlPattern =
-    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-
-  return text.replace(urlPattern, function (url) {
-    return '<a href="' + url + '">' + url + "</a>";
-  });
-}
-
 export default function App() {
-  const [dynamicQuestions, setDynamicQuestions] = useState({});
-  const [questionFlow, setQuestionFlow] = useState({});
-  const onSubmit = (data) => {
-    alert(JSON.stringify(data, null, 4));
-  };
+  const [questions, setQuestions] = useState({});
 
   // https://docs.google.com/spreadsheets/d/1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY/edit#gid=774227821
   useEffect(() => {
     const parser = new PublicGoogleSheetsParser();
-    const tempFlow = { prev: {}, next: {} };
     parser
       .parse(
         "1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY",
@@ -32,10 +18,14 @@ export default function App() {
           static: [],
           dynamic: {},
         };
-        items.forEach((item) => {
+        items.forEach((item, index) => {
           const question = {
-            ...item,
-            Options: Object.keys(item)
+            id: item["Unique ID"],
+            staticId: index,
+            title: item.Question,
+            type: item.Type,
+            flowType: item.QuestionFlowType,
+            options: Object.keys(item)
               .filter((key) => key.startsWith("A"))
               .map((key) => {
                 const rawOption = item[key].trim();
@@ -43,25 +33,23 @@ export default function App() {
                 if (match) {
                   const key = match[1].trim();
                   const value = match[2].trim();
-                  return { [key]: value };
+                  return { label: key, value: value };
                 }
-                return { [rawOption]: rawOption };
+                return { label: rawOption, value: rawOption };
               }),
           };
           questions.dynamic[item["Unique ID"]] = question;
-          questions.static.push(question);
+          if (item.QuestionFlowType === "Static") {
+            questions.static.push(question);
+          }
         });
-        console.log(questions);
+        setQuestions(questions);
       });
   }, []);
 
   return (
     <>
-      {/* <Form
-        data={Object.values(dynamicQuestions)}
-        onSubmit={onSubmit}
-        questionFlow={questionFlow}
-      /> */}
+      <Form data={questions} />
     </>
   );
 }

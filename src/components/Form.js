@@ -1,72 +1,48 @@
 import React, { useEffect, useState } from "react";
 
-import FormCheckboxQuestion from "./FormCheckboxQuestion";
 import FormRadioButtonQuestion from "./FormRadioButtonQuestion";
 import FormDropDownQuestion from "./FormDropDownQuestion";
-import FormText from "./FormText";
 
 const fieldComponents = {
-  checkbox: FormCheckboxQuestion,
-  radio: FormRadioButtonQuestion,
-  dropdown: FormDropDownQuestion,
-  text: FormText
+  Radio: FormRadioButtonQuestion,
+  Dropdown: FormDropDownQuestion,
 };
 
-const Form = ({ data = [], onSubmit = () => {}, questionFlow = {} }) => {
-  const [current, setCurrent] = useState("");
-  const [surveyResult, setSurveyResult] = useState({});
+const Form = ({ data = {}, onSubmit = () => {} }) => {
+  const [end, setEnd] = useState(false);
+  const [prev, setPrev] = useState(null);
+  const [current, setCurrent] = useState();
+  const [result, setResult] = useState({});
+
   const onChange = (id, value) => {
-    setSurveyResult({
-      ...surveyResult,
-      [id]: value
+    setResult({
+      ...result,
+      [id]: value,
     });
+    const staticId = data.dynamic[id].staticId;
+    if (staticId < data.static.length - 1) {
+      setPrev(current);
+      setCurrent(data.static[staticId + 1]);
+    } else {
+      console.log("Finished static questions");
+    }
   };
 
   useEffect(() => {
-    setCurrent(data[0]?.id);
+    const staticQuestions = data.static?.filter((q) => q.flowType === "Static");
+    console.log(staticQuestions);
+    if (staticQuestions && staticQuestions.length > 0) {
+      setCurrent(staticQuestions[0]);
+    }
   }, [data]);
 
-  const onNext = () => {
-    setCurrent(questionFlow.next[current][surveyResult[current]]);
-  };
-  // setCurrent(
-  //   surveyResult.current
-  // );
-
-  const onPrevious = () => setCurrent(questionFlow.prev[current]);
   return (
     <div className="dynamic-form">
-      {data.map((q, index) =>
-        q.id === current ? (
-          <div className="questionWrapper">
-            <img
-              alt="logo"
-              src="https://paperprisons.org/images/logo.png"
-              className="logo"
-            />
-            {React.createElement(fieldComponents[q.type], {
-              ...q,
-              key: q.id,
-              value: surveyResult[q.id] || null,
-              onChange
-            })}
-            <div className="dynamic-form-buttons">
-              {current !== data[0].id && (
-                <button onClick={onPrevious}>Previous</button>
-              )}
-              {/* {current !== data[data.length - 1].id &&
-                surveyResult[data[current]?.id]?.length > 0 && ( */}
-              {questionFlow.next[current][surveyResult[current]] && (
-                <button onClick={onNext}>Next</button>
-              )}
-              {/* {current === data[data.length - 1].id &&
-                surveyResult[data[current]?.id]?.length > 0 && (
-                  <button onClick={() => onSubmit(surveyResult)}>Submit</button>
-                )} */}
-            </div>
-          </div>
-        ) : null
-      )}
+      {current &&
+        React.createElement(fieldComponents[current.type], {
+          ...current,
+          onChange,
+        })}
     </div>
   );
 };
