@@ -4,6 +4,10 @@
   margin: 0;
 }
 
+.dynamic-form {
+  padding: 10vh 5vw;
+}
+
 .dynamic-form-field label {
   cursor: pointer;
 }
@@ -55,9 +59,38 @@
   display: none;
 }
 
+.dynamic-form-radio-button-field {
+  margin: 10px 0;
+}
+
+.dynamic-form-radio-button-field input {
+  display: none;
+}
+
+.dynamic-form-radio-button-field label {
+  cursor: pointer;
+  appearance: button;
+  border: 1px solid;
+  border-radius: 10px;
+  width: 100%;
+  padding: 5px 10px;
+}
+
+.dynamic-form-radio-button-field.dynamic-form-radio-button-field-checked label {
+  color: white;
+  background-color: #24A0ED;
+}
+
 .dynamic-form-buttons {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@media (min-width: 1024px) {
+  .dynamic-form {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
 }

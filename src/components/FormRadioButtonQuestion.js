@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormRadioButtonField from "./FormRadioButtonField";
 
 const FormRadioButtonQuestion = ({
@@ -9,10 +9,13 @@ const FormRadioButtonQuestion = ({
   onChange = () => {},
 }) => {
   const [checked, setChecked] = useState(value);
-  const onCheckedHandler = (v) => {
+  const onCheckedHandler = (v, o) => {
     setChecked(v);
-    onChange(id, v);
+    onChange(id, v, o);
   };
+  useEffect(() => {
+    setChecked(value);
+  }, [value, id]);
   return (
     <div className={"dynamic-form-field dynamic-form-radio-question"}>
       <p
@@ -24,7 +27,9 @@ const FormRadioButtonQuestion = ({
           <FormRadioButtonField
             key={option.label}
             label={option.label}
-            checked={checked === option.value}
+            value={option.value}
+            option={option.option}
+            checked={checked === option.option}
             onChange={onCheckedHandler}
           />
         );
