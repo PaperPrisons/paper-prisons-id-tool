@@ -12,13 +12,24 @@
   cursor: pointer;
 }
 
-.dynamic-form-dropdown-question {
+.dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper {
   position: relative;
+}
+
+.dynamic-form-field-question-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.dynamic-form-field-question-description {
+  font-size: 16px;
+  font-style: italic;
 }
 
 .dynamic-form-select-field-options {
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 0;
   width: 50vw;
   height: 124px;
@@ -39,12 +50,14 @@
 }
 
 .dynamic-form-select-field-options li:hover {
-  background-color: lightgray;
+  color: white;
+  background-color: #24A0ED;
   cursor: pointer;
 }
 
 .dynamic-form-select-field-options li.dynamic-form-select-field-option-active {
-  background-color: lightgray;
+  color: white;
+  background-color: #24A0ED;
   position: relative;
 }
 
@@ -88,9 +101,41 @@
   justify-content: space-between;
 }
 
+.dynamic-form-go-back-button {
+  padding: 6px 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.dynamic-form-output .dynamic-form-output-item {
+  margin: 10px 0;
+}
+
+.dynamic-form-output .dynamic-form-output-item .dynamic-form-output-item-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
 @media (min-width: 1024px) {
   .dynamic-form {
     max-width: 1000px;
     margin: 0 auto;
+  }
+
+  .dynamic-form-go-back-button:hover {
+    background-color: #24A0ED;
+    color: white;
+    border-color: #24A0ED;
+  }
+
+
+  .dynamic-form-radio-button-field label:hover {
+    color: white;
+    background-color: #24A0ED;
+    cursor: pointer;
   }
 }

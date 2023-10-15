@@ -8,13 +8,22 @@ const fieldComponents = {
   Dropdown: FormDropDownQuestion,
 };
 
-const Form = ({ data = {}, onSubmit = () => {} }) => {
+const getParameterValueByName = (name) => {
+  name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+  const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+  const results = regex.exec(location.search);
+  return results === null
+    ? ""
+    : decodeURIComponent(results[1].replace(/\+/g, " "));
+};
+
+const Form = ({ data = {}, output = {} }) => {
   const [end, setEnd] = useState(false);
   const [questionStack, setQuestionStack] = useState([]);
   const [current, setCurrent] = useState();
   const [result, setResult] = useState({});
   const [nextDynamicId, setNextDynamicId] = useState(null);
-
+  const [debug, setDebug] = useState(false);
   const onChange = (id, value, option) => {
     setResult({
       ...result,
@@ -50,7 +59,7 @@ const Form = ({ data = {}, onSubmit = () => {} }) => {
 
   const onPrevious = () => {
     setCurrent(questionStack[questionStack.length - (current ? 2 : 1)]);
-    setQuestionStack(questionStack.slice(0, -1));
+    current && setQuestionStack(questionStack.slice(0, -1));
     setEnd(false);
   };
 
@@ -62,8 +71,31 @@ const Form = ({ data = {}, onSubmit = () => {} }) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    setDebug(!!getParameterValueByName("debug"));
+  }, []);
+
   return (
     <div className="dynamic-form">
+      {debug && (
+        <pre
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(result, null, 4),
+          }}
+        />
+      )}
+      {debug && (
+        <pre
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(output, null, 4),
+          }}
+        />
+      )}
+      {questionStack.length > 1 && !end && (
+        <button className="dynamic-form-go-back-button" onClick={onPrevious}>
+          Go Back
+        </button>
+      )}
       {!end &&
         current &&
         React.createElement(fieldComponents[current.type], {
@@ -71,9 +103,30 @@ const Form = ({ data = {}, onSubmit = () => {} }) => {
           onChange,
           value: result[current.id],
         })}
-      {end && <pre>{JSON.stringify(result, null, 4)}</pre>}
-      {questionStack.length > 1 && <button onClick={onPrevious}>Prev</button>}
-      {nextDynamicId}
+      {end && (
+        <div className="dynamic-form-output">
+          {data.raw.map((question) => {
+            const resultOption = result[question.id];
+            const outputQuestion = output[question.id];
+            if (resultOption && outputQuestion) {
+              return (
+                <div key={question.id} className="dynamic-form-output-item">
+                  <p
+                    className="dynamic-form-output-item-title"
+                    dangerouslySetInnerHTML={{ __html: question.title }}
+                  ></p>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: outputQuestion.options[resultOption],
+                    }}
+                  />
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
     </div>
   );
 };

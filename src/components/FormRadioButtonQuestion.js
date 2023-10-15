@@ -4,6 +4,7 @@ import FormRadioButtonField from "./FormRadioButtonField";
 const FormRadioButtonQuestion = ({
   id = "",
   title = "",
+  description = "",
   options = [],
   value = "",
   onChange = () => {},
@@ -20,8 +21,14 @@ const FormRadioButtonQuestion = ({
     <div className={"dynamic-form-field dynamic-form-radio-question"}>
       <p
         dangerouslySetInnerHTML={{ __html: title }}
-        className="questionTitle"
+        className="dynamic-form-field-question-title"
       />
+      {description && (
+        <p
+          dangerouslySetInnerHTML={{ __html: description }}
+          className="dynamic-form-field-question-description"
+        />
+      )}
       {options.map((option) => {
         return (
           <FormRadioButtonField

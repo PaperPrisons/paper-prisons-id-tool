@@ -4,6 +4,7 @@ import Form from "../components/Form";
 
 export default function App() {
   const [questions, setQuestions] = useState({});
+  const [output, setOutput] = useState({});
 
   // https://docs.google.com/spreadsheets/d/1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY/edit#gid=774227821
   // Convention
@@ -21,12 +22,14 @@ export default function App() {
         const questions = {
           static: [],
           dynamic: {},
+          raw: [],
         };
         items.forEach((item, index) => {
           const question = {
             id: item["Unique ID"],
             staticId: index,
             title: item.Question,
+            description: item["Sub Description"],
             type: item.Type,
             isStatic: item.QuestionFlowType === "Static",
             options: Object.keys(item)
@@ -50,14 +53,42 @@ export default function App() {
           if (question.isStatic) {
             questions.static.push(question);
           }
+          questions.raw.push(question);
         });
         setQuestions(questions);
       });
   }, []);
 
+  useEffect(() => {
+    const parser = new PublicGoogleSheetsParser();
+    parser
+      .parse(
+        "1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY",
+        "Answer Output Key"
+      )
+      .then((items) => {
+        const outputs = {};
+        items.forEach((item) => {
+          const id = item["Question Unique ID (For reference purpose only)"];
+          const question = {
+            id,
+            title: item.Question,
+            options: Object.keys(item)
+              .filter((key) => key.startsWith("A"))
+              .reduce((acc, key) => {
+                acc[key.replace(" Output", "").trim()] = item[key].trim();
+                return acc;
+              }, {}),
+          };
+          outputs[id] = question;
+        });
+        setOutput(outputs);
+      });
+  }, []);
+
   return (
     <>
-      <Form data={questions} />
+      <Form data={questions} output={output} />
     </>
   );
 }
