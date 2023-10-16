@@ -84,7 +84,7 @@
 
 .dynamic-form-radio-button-field label {
   cursor: pointer;
-  appearance: button;
+  display: block;
   border: 1px solid;
   border-radius: 10px;
   width: 100%;
