@@ -47,6 +47,7 @@
   height: 24px;
   line-height: 24px;
   margin: 0;
+  padding: 0 5px;
 }
 
 .dynamic-form-select-field-options li:hover {
@@ -74,6 +75,7 @@
 
 .dynamic-form-radio-button-field {
   margin: 10px 0;
+  padding: 6px 0;
 }
 
 .dynamic-form-radio-button-field input {
@@ -130,6 +132,10 @@
     background-color: #24A0ED;
     color: white;
     border-color: #24A0ED;
+  }
+
+  .dynamic-form-radio-button-field {
+    padding: 0;
   }
 
 

@@ -8,7 +8,7 @@ export default function App() {
 
   // https://docs.google.com/spreadsheets/d/1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY/edit#gid=774227821
   // Convention
-  // 1. All static questions must be appeared in front of the dynamic questions.
+  // 1. All static questions must appear in front of the dynamic questions.
   // 2. Only one static question can control the entry point of the dynamic questions.
   // 3. If a question can control the flow of the dynamic questions, all options under it should be either an option key (such as A1/A2/..., etc.) or #End
   useEffect(() => {
