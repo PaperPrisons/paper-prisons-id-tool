@@ -94,10 +94,7 @@ const Form = ({ data = {}, output = {} }) => {
       {!end && current && (
         <div className="question-item-wrapper">
           {questionStack.length > 1 && !end && (
-            <button
-              className="dynamic-form-go-back-button"
-              onClick={onPrevious}
-            >
+            <button className="dynamic-form-button" onClick={onPrevious}>
               Go Back
             </button>
           )}
@@ -145,6 +142,25 @@ const Form = ({ data = {}, output = {} }) => {
             }
             return null;
           })}
+          <div className="dynamic-form-output-item">
+            <p className="dynamic-form-output-item-title">
+              Send the result to as email:
+            </p>
+            <div className="email-form-wrapper">
+              <input
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Email"
+                className="email-field"
+              />
+              <input
+                type="submit"
+                value="Submit"
+                className="dynamic-form-button active"
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>
