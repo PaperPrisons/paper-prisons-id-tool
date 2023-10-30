@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 import PublicGoogleSheetsParser from "public-google-sheets-parser";
 import Form from "../components/Form";
 
@@ -88,6 +89,14 @@ export default function App() {
 
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300"
+          rel="stylesheet"
+          type="text/css"
+        />
+      </Head>
       <Form data={questions} output={output} />
     </>
   );

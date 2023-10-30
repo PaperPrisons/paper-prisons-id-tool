@@ -91,30 +91,50 @@ const Form = ({ data = {}, output = {} }) => {
           }}
         />
       )}
-      {questionStack.length > 1 && !end && (
-        <button className="dynamic-form-go-back-button" onClick={onPrevious}>
-          Go Back
-        </button>
+      {!end && current && (
+        <div className="question-item-wrapper">
+          {questionStack.length > 1 && !end && (
+            <button
+              className="dynamic-form-go-back-button"
+              onClick={onPrevious}
+            >
+              Go Back
+            </button>
+          )}
+          <img
+            className="question-item-logo"
+            src="https://paperprisons.org/images/logo.png"
+          />
+          {React.createElement(fieldComponents[current.type], {
+            ...current,
+            onChange,
+            value: result[current.id],
+          })}
+        </div>
       )}
-      {!end &&
-        current &&
-        React.createElement(fieldComponents[current.type], {
-          ...current,
-          onChange,
-          value: result[current.id],
-        })}
       {end && (
         <div className="dynamic-form-output">
+          <img
+            className="question-item-logo"
+            src="https://paperprisons.org/images/logo.png"
+          />
+          <div className="dynamic-form-output-item">
+            <p className="dynamic-form-output-item-title">
+              Here is what you need to do:
+            </p>
+          </div>
           {data.raw.map((question) => {
             const resultOption = result[question.id];
             const outputQuestion = output[question.id];
             if (resultOption && outputQuestion) {
               return (
                 <div key={question.id} className="dynamic-form-output-item">
-                  <p
-                    className="dynamic-form-output-item-title"
-                    dangerouslySetInnerHTML={{ __html: question.title }}
-                  ></p>
+                  {debug && (
+                    <p
+                      className="dynamic-form-output-item-title"
+                      dangerouslySetInnerHTML={{ __html: question.title }}
+                    ></p>
+                  )}
                   <p
                     dangerouslySetInnerHTML={{
                       __html: outputQuestion.options[resultOption],
