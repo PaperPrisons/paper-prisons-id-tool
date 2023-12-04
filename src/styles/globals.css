@@ -219,6 +219,10 @@
 }
 
 @media (min-width: 1024px) {
+  .preface {
+    max-width: 1000px;
+  }
+
   .dynamic-form {
     max-width: 1000px;
     margin: 0 auto;
