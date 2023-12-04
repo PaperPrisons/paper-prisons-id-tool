@@ -6,6 +6,7 @@ import Form from "../components/Form";
 export default function App() {
   const [questions, setQuestions] = useState({});
   const [output, setOutput] = useState({});
+  const [start, setStart] = useState(false);
 
   // https://docs.google.com/spreadsheets/d/1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY/edit#gid=774227821
   // Convention
@@ -87,6 +88,8 @@ export default function App() {
       });
   }, []);
 
+  const onStart = () => setStart(true);
+
   return (
     <>
       <Head>
@@ -97,7 +100,39 @@ export default function App() {
           type="text/css"
         />
       </Head>
-      <Form data={questions} output={output} />
+      {!start ? (
+        <div className="preface">
+          <h1>
+            <img
+              className="question-item-logo"
+              src="https://paperprisons.org/images/logo.png"
+            />
+            Reentry ID Tool Assistant
+          </h1>
+          <p>
+            We know the process of getting an ID can be confusing and
+            frustrating. This tool is designed to simplify the process of
+            getting an ID. Based on your answer to a few questions, we'll give
+            you a summary of documents you will need and a link to the website
+            to apply for an ID. You will still need to file an application and
+            submit it to get an ID!
+          </p>
+          <p className="disclaimer">
+            Disclaimer: Please note that no personal information will be
+            captured or stored in this tool. Also, this tool is not equivalent
+            to legal advice. For any feedback, please contact us via
+            id@paperprisons.org
+          </p>
+          <button
+            className="start-button dynamic-form-button"
+            onClick={onStart}
+          >
+            Start
+          </button>
+        </div>
+      ) : (
+        <Form data={questions} output={output} />
+      )}
     </>
   );
 }

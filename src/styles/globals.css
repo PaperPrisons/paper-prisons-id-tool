@@ -5,6 +5,31 @@
   font-family: 'IBM Plex Sans', "Open Sans", sans-serif;
 }
 
+.preface {
+  border: 1px solid black;
+  display: block;
+  width: 50vw;
+  position: relative;
+  margin: 10vh auto;
+  padding: 5vh 5vw;
+  border-radius: 10px;
+}
+
+.start-button {
+  display: block;
+  margin: 30px auto;
+}
+
+.preface p {
+  margin-top: 10px;
+}
+
+.preface .disclaimer {
+  font-size: 12px;
+  color: gray;
+  font-style: italic;
+}
+
 .dynamic-form {
   padding: 10vh 5vw;
 }
@@ -75,13 +100,13 @@
 
 .dynamic-form-select-field-options li:hover {
   color: white;
-  background-color: #24A0ED;
+  background-color: #6458ab;
   cursor: pointer;
 }
 
 .dynamic-form-select-field-options li.dynamic-form-select-field-option-active {
   color: white;
-  background-color: #24A0ED;
+  background-color: #6458ab;
   position: relative;
 }
 

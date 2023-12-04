@@ -117,6 +117,10 @@ const Form = ({ data = {}, output = {} }) => {
           />
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">
+              Thank you for using our ID tool! If you follow the instructions
+              below, you'll be another step closer to getting your ID:
+            </p>
+            <p className="dynamic-form-output-item-title">
               Here is what you need to do:
             </p>
           </div>
