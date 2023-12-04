@@ -15,6 +15,10 @@
   border-radius: 10px;
 }
 
+.preface h1 {
+  text-align: center;
+}
+
 .start-button {
   display: block;
   margin: 30px auto;
