@@ -66,7 +66,7 @@ export default function App() {
     parser
       .parse(
         "1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY",
-        "Answer Output Key"
+        "Answer Output Key-Yabo"
       )
       .then((items) => {
         const outputs = {};
@@ -110,12 +110,10 @@ export default function App() {
             Reentry ID Tool Assistant
           </h1>
           <p>
-            We know the process of getting an ID can be confusing and
-            frustrating. This tool is designed to simplify the process of
-            getting an ID. Based on your answer to a few questions, we'll give
-            you a summary of documents you will need and a link to the website
-            to apply for an ID. You will still need to file an application and
-            submit it to get an ID!
+            This tool is designed to simplify the process of getting an ID.
+            Based on your answer to a few questions, we'll give you a summary of
+            documents you will need to apply for an ID as well as instructions
+            for filing the application. Hopefully it helps!
           </p>
           <p className="disclaimer">
             Disclaimer: Please note that no personal information will be

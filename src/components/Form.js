@@ -63,6 +63,16 @@ const Form = ({ data = {}, output = {} }) => {
     setEnd(false);
   };
 
+  const onPreviousFromEnd = () => {
+    setCurrent(questionStack[questionStack.length - (current ? 2 : 1)]);
+    current && setQuestionStack(questionStack.slice(0, -1));
+    setEnd(false);
+  };
+
+  const onStartOver = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     const staticQuestions = data.static;
     if (staticQuestions && staticQuestions.length > 0) {
@@ -111,6 +121,15 @@ const Form = ({ data = {}, output = {} }) => {
       )}
       {end && (
         <div className="dynamic-form-output">
+          <button className="dynamic-form-button" onClick={onPreviousFromEnd}>
+            Go Back
+          </button>
+          <button
+            className="dynamic-form-button start-over-button"
+            onClick={onStartOver}
+          >
+            Start Over
+          </button>
           <img
             className="question-item-logo"
             src="https://paperprisons.org/images/logo.png"
@@ -124,28 +143,54 @@ const Form = ({ data = {}, output = {} }) => {
               Here is what you need to do:
             </p>
           </div>
-          {data.raw.map((question) => {
-            const resultOption = result[question.id];
-            const outputQuestion = output[question.id];
-            if (resultOption && outputQuestion) {
-              return (
-                <div key={question.id} className="dynamic-form-output-item">
-                  {debug && (
+          {data.raw
+            .filter((q) => q.id != "SSN" && q.id != "Citizenship")
+            .map((question) => {
+              const resultOption = result[question.id];
+              const outputQuestion = output[question.id];
+              if (resultOption && outputQuestion) {
+                return (
+                  <div key={question.id} className="dynamic-form-output-item">
+                    {debug && (
+                      <p
+                        className="dynamic-form-output-item-title"
+                        dangerouslySetInnerHTML={{ __html: question.title }}
+                      ></p>
+                    )}
                     <p
-                      className="dynamic-form-output-item-title"
-                      dangerouslySetInnerHTML={{ __html: question.title }}
-                    ></p>
-                  )}
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: outputQuestion.options[resultOption],
-                    }}
-                  />
-                </div>
-              );
-            }
-            return null;
-          })}
+                      dangerouslySetInnerHTML={{
+                        __html: outputQuestion.options[resultOption],
+                      }}
+                    />
+                  </div>
+                );
+              }
+              return null;
+            })}
+          {data.raw
+            .filter((q) => q.id == "SSN" || q.id == "Citizenship")
+            .map((question) => {
+              const resultOption = result[question.id];
+              const outputQuestion = output[question.id];
+              if (resultOption && outputQuestion) {
+                return (
+                  <div key={question.id} className="dynamic-form-output-item">
+                    {debug && (
+                      <p
+                        className="dynamic-form-output-item-title"
+                        dangerouslySetInnerHTML={{ __html: question.title }}
+                      ></p>
+                    )}
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: outputQuestion.options[resultOption],
+                      }}
+                    />
+                  </div>
+                );
+              }
+              return null;
+            })}
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">
               Send the result to as email:
@@ -164,6 +209,10 @@ const Form = ({ data = {}, output = {} }) => {
                 className="dynamic-form-button active"
               />
             </div>
+          </div>
+          <div className="dynamic-form-output-item">
+            <p className="dynamic-form-output-item-title">Contact</p>
+            Placeholder for test
           </div>
         </div>
       )}
