@@ -104,8 +104,9 @@ const Form = ({ data = {}, output = {} }) => {
       {!end && current && (
         <div className="question-item-wrapper">
           {questionStack.length > 1 && !end && (
-            <button className="dynamic-form-button" onClick={onPrevious}>
-              Go Back
+            <button className="dynamic-form-button  arrow" onClick={onPrevious}>
+              <span className="hide-on-mobile">Go Back</span>
+              <span className="hide-on-desktop">&larr;</span>
             </button>
           )}
           <img
@@ -121,8 +122,12 @@ const Form = ({ data = {}, output = {} }) => {
       )}
       {end && (
         <div className="dynamic-form-output">
-          <button className="dynamic-form-button" onClick={onPreviousFromEnd}>
-            Go Back
+          <button
+            className="dynamic-form-button arrow"
+            onClick={onPreviousFromEnd}
+          >
+            <span className="hide-on-mobile">Go Back</span>
+            <span className="hide-on-desktop">&larr;</span>
           </button>
           <button
             className="dynamic-form-button start-over-button"

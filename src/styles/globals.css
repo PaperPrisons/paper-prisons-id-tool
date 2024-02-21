@@ -166,6 +166,10 @@
   margin-bottom: 10px;
 }
 
+.dynamic-form-button.arrow {
+  padding: 6px 10px;
+}
+
 .dynamic-form-button.active {
   background-color: #6458ab;
   color: white;
@@ -217,22 +221,39 @@
 .email-form-wrapper {
   margin: 0 auto;
   text-align: center;
+  display: flex;
 }
 
 .email-field {
   height: 32px;
   border-radius: 5px;
   border-color: gray;
-  width: 200px;
   padding-left: 4px;
   margin-right: 10px;
 }
 
 .dynamic-form-button.start-over-button {
   float: right;
+  padding: 5px 10px;
+}
+
+.email-form-wrapper .dynamic-form-button {
+  padding: 6px;
+}
+
+.hide-on-mobile {
+  display: none;
 }
 
 @media (min-width: 1024px) {
+  .hide-on-desktop {
+    display: none ;
+  }
+
+  .hide-on-mobile {
+    display: block;
+  }
+
   .preface {
     max-width: 1000px;
   }
@@ -246,6 +267,10 @@
     max-width: 100%;
   }
 
+  .dynamic-form-button.arrow {
+    padding: 6px 50px;
+  }
+
   .dynamic-form-button:hover {
     background-color: #6458ab;
     color: white;
@@ -256,10 +281,19 @@
     padding: 0;
   }
 
+  .dynamic-form-button.start-over-button {
+    padding: 6px 50px;
+  }
+
 
   .dynamic-form-radio-button-field label:hover {
     color: white;
     background-color: #6458ab;
     cursor: pointer;
+  }
+
+  .email-field {
+    width: 200px;
+    margin-bottom: 0;
   }
 }
