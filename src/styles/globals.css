@@ -50,7 +50,7 @@
   border: 1px solid black;
   padding: 1px 10px 1px 10px;
   display: block;
-  width: 50vw;
+  width: 60vw;
   position: relative;
   border-radius: 10px;
 }
@@ -265,6 +265,7 @@
 
   .dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label {
     max-width: 100%;
+    width: 50vw;
   }
 
   .dynamic-form-button.arrow {
