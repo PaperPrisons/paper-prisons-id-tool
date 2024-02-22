@@ -15,7 +15,9 @@ Then you can host everything under docs folder. Currently it's hosted as [github
 First, run the development server:
 
 ```bash
+
 npm i && npm run dev
+
 ```
 
 Then you can check the webpage localhost:3000 in your local.
