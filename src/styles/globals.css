@@ -241,6 +241,18 @@
   padding: 6px;
 }
 
+.dynamic-form-button:hover {
+  background-color: #6458ab;
+  color: white;
+  border-color: #6458ab;
+}
+
+.dynamic-form-radio-button-field label:hover {
+  color: white;
+  background-color: #6458ab;
+  cursor: pointer;
+}
+
 .hide-on-mobile {
   display: none;
 }
@@ -272,25 +284,12 @@
     padding: 6px 50px;
   }
 
-  .dynamic-form-button:hover {
-    background-color: #6458ab;
-    color: white;
-    border-color: #6458ab;
-  }
-
   .dynamic-form-radio-button-field {
     padding: 0;
   }
 
   .dynamic-form-button.start-over-button {
     padding: 6px 50px;
-  }
-
-
-  .dynamic-form-radio-button-field label:hover {
-    color: white;
-    background-color: #6458ab;
-    cursor: pointer;
   }
 
   .email-field {
