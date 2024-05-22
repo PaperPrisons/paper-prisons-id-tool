@@ -59,13 +59,24 @@ const Form = ({ data = {}, output = {} }) => {
 
   const onPrevious = () => {
     setCurrent(questionStack[questionStack.length - (current ? 2 : 1)]);
-    current && setQuestionStack(questionStack.slice(0, -1));
-    setEnd(false);
-  };
+    if (current) {
+      const newQuestionStack = questionStack.slice(0, -1);
+      const newResult = JSON.parse(JSON.stringify(result));
+      Object.keys(result).forEach((id) => {
+        let flag = false;
+        newQuestionStack.forEach((question) => {
+          if (question.id == id) {
+            flag = true;
+          }
+        });
+        if (!flag) {
+          delete newResult[id];
+        }
+      });
+      setResult(newResult);
+      setQuestionStack(newQuestionStack);
+    }
 
-  const onPreviousFromEnd = () => {
-    setCurrent(questionStack[questionStack.length - (current ? 2 : 1)]);
-    current && setQuestionStack(questionStack.slice(0, -1));
     setEnd(false);
   };
 
@@ -122,10 +133,7 @@ const Form = ({ data = {}, output = {} }) => {
       )}
       {end && (
         <div className="dynamic-form-output">
-          <button
-            className="dynamic-form-button arrow"
-            onClick={onPreviousFromEnd}
-          >
+          <button className="dynamic-form-button arrow" onClick={onPrevious}>
             <span className="hide-on-mobile">Go Back</span>
             <span className="hide-on-desktop">&larr;</span>
           </button>
