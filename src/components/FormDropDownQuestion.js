@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const FormDropDownQuestion = ({
   id = "",
@@ -8,6 +8,7 @@ const FormDropDownQuestion = ({
   value = "",
   onChange = () => {},
 }) => {
+  const selectRef = useRef(null);
   const [active, setActive] = useState(false);
   const [checked, setChecked] = useState(value);
   const onOptionSelected = (v, o) => {
@@ -17,8 +18,24 @@ const FormDropDownQuestion = ({
   };
   const onOptionsToggle = () => setActive(!active);
 
+  const handleClickOutside = (event) => {
+    if (selectRef.current && !selectRef.current.contains(event.target)) {
+      setActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className={"dynamic-form-field dynamic-form-dropdown-question"}>
+    <div
+      ref={selectRef}
+      className={"dynamic-form-field dynamic-form-dropdown-question"}
+    >
       <p
         dangerouslySetInnerHTML={{ __html: title }}
         className="dynamic-form-field-question-title"
