@@ -145,10 +145,10 @@ const Form = ({ data = {}, output = {} }) => {
       )}
       {end && (
         <div className="dynamic-form-output">
-          <button className="dynamic-form-button arrow" onClick={onPrevious}>
+          {/* <button className="dynamic-form-button arrow" onClick={onPrevious}>
             <span className="hide-on-mobile">Go Back</span>
             <span className="hide-on-desktop">&larr;</span>
-          </button>
+          </button> */}
           <button
             className="dynamic-form-button start-over-button"
             onClick={onStartOver}
