@@ -135,6 +135,7 @@ const Form = ({ data = {}, output = {} }) => {
           <img
             className="question-item-logo"
             src="https://paperprisons.org/images/logo.png"
+            alt="Paper Prisons Logo"
           />
           {React.createElement(fieldComponents[current.type], {
             ...current,
@@ -158,6 +159,7 @@ const Form = ({ data = {}, output = {} }) => {
           <img
             className="question-item-logo"
             src="https://paperprisons.org/images/logo.png"
+            alt="Paper Prisons Logo"
           />
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">
