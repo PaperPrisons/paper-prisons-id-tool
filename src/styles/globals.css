@@ -67,7 +67,7 @@ body {
 
 /* ==========================================================================
    LANDING PAGE COMPONENTS
-   ========================================================================== */
+========================================================================== */
 
 .preface {
   background: var(--background-white);
@@ -122,7 +122,7 @@ body {
 
 /* ==========================================================================
    DYNAMIC FORM LAYOUT
-   ========================================================================== */
+========================================================================== */
 
 .dynamic-form {
   padding: 2rem 1rem;
@@ -136,6 +136,14 @@ body {
 
 .dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper {
   position: relative;
+  display: inline-block;
+  /* <<< critical: shrink-wrap to content */
+  width: auto;
+  /* don’t stretch full row */
+  max-width: 400px;
+  /* keep consistent with your input width */
+  box-sizing: border-box;
+  /* added */
 }
 
 .dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label {
@@ -175,7 +183,7 @@ body {
 
 /* ==========================================================================
    FORM FIELD COMPONENTS
-   ========================================================================== */
+========================================================================== */
 
 .dynamic-form-field-question-title {
   font-size: var(--font-size-xl);
@@ -286,7 +294,7 @@ body {
 
 /* ==========================================================================
    BUTTON COMPONENTS
-   ========================================================================== */
+========================================================================== */
 
 .dynamic-form-button {
   padding: 0.75rem 2rem;
@@ -327,7 +335,7 @@ body {
 
 /* ==========================================================================
    RESULTS PAGE COMPONENTS
-   ========================================================================== */
+========================================================================== */
 
 .dynamic-form-output {
   background: var(--background-white);
@@ -379,11 +387,18 @@ body {
 }
 
 .question-item-logo {
-  width: 100px;
   display: block;
   margin: 0 auto 2rem;
-  border-radius: var(--radius-md);
+  width: 140px;
+  /* was 100px — a touch larger but still safe, try 120px */
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  /* force never crop the graphic */
+  border-radius: 0;
+  /* removed rounding so letters aren’t clipped */
 }
+
 
 .email-form-wrapper {
   margin: 2rem auto;
@@ -437,7 +452,7 @@ body {
 
 /* ==========================================================================
    RESPONSIVE DESIGN
-   ========================================================================== */
+========================================================================== */
 
 @media (min-width: 768px) {
   .hide-on-desktop {
