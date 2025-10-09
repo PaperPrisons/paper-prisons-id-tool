@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import FormRadioButtonQuestion from "./FormRadioButtonQuestion";
 import FormDropDownQuestion from "./FormDropDownQuestion";
@@ -7,6 +7,12 @@ const fieldComponents = {
   Radio: FormRadioButtonQuestion,
   Dropdown: FormDropDownQuestion,
 };
+
+// Shared results copy for both screen i.e. on the results screen and inside the PDF so both stay aligned.
+const THANK_YOU_MESSAGE =
+  "Thank you for using our ID tool! If you follow the instructions below, you'll be another step closer to getting your ID:";
+const INSTRUCTION_INTRO = "Here is what you need to do:";
+const CONTACT_PLACEHOLDER = "Placeholder for test";
 
 const getParameterValueByName = (name) => {
   name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
@@ -24,6 +30,9 @@ const Form = ({ data = {}, output = {} }) => {
   const [result, setResult] = useState({});
   const [nextDynamicId, setNextDynamicId] = useState(null);
   const [debug, setDebug] = useState(false);
+  // Controls the feedback/loading state for the one-click PDF export button.
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [pdfError, setPdfError] = useState("");
   const onChange = (id, value, option) => {
     setResult({
       ...result,
@@ -96,6 +105,88 @@ const Form = ({ data = {}, output = {} }) => {
     setDebug(!!getParameterValueByName("debug"));
   }, []);
 
+  // list of guidance blocks to print in the PDF so we work with
+  // plain arrays of HTML strings when the results screen is visible.
+  const pdfContent = useMemo(() => {
+    if (!end) {
+      return {
+        summaryItems: [],
+        supportingItems: [],
+        contactSection: null,
+      };
+    }
+
+    const summaryItems = [THANK_YOU_MESSAGE, INSTRUCTION_INTRO];
+    const supportingItems = [];
+
+    if (Array.isArray(data?.raw)) {
+      // Mirror the on-screen split between primary steps and supporting notes.
+      data.raw.forEach((question) => {
+        const resultOption = result[question.id];
+        const outputQuestion = output[question.id];
+        if (!resultOption || !outputQuestion) {
+          return;
+        }
+
+        const html = outputQuestion.options[resultOption];
+        if (!html) {
+          return;
+        }
+
+        if (question.id === "SSN" || question.id === "Citizenship") {
+          supportingItems.push(html);
+        } else {
+          summaryItems.push(html);
+        }
+      });
+    }
+
+    return {
+      summaryItems,
+      supportingItems,
+      contactSection: CONTACT_PLACEHOLDER,
+    };
+  }, [end, data.raw, output, result]);
+
+  // Triggers lazy-imported PDF rendering, streams the result to the browser,
+  // and provides minimal UX messaging when generation fails.
+  const handleDownloadPdf = useCallback(async () => {
+    if (!end || isGeneratingPdf) {
+      return;
+    }
+
+    setPdfError("");
+    setIsGeneratingPdf(true);
+
+    try {
+      const { buildResultsPdf } = await import("../utils/buildResultsPdf");
+      const blob = await buildResultsPdf({
+        summaryItems: pdfContent.summaryItems,
+        supportingItems: pdfContent.supportingItems,
+        contactSection: pdfContent.contactSection,
+        generatedAt: new Date(),
+      });
+      // Use a temporary anchor to prompt the browser download without navigating away.
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `paper-prisons-id-results-${new Date()
+        .toISOString()
+        .slice(0, 10)}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Failed to generate PDF", error);
+      setPdfError(
+        "Sorry, we couldn't create the PDF. Please try again in a moment."
+      );
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  }, [end, isGeneratingPdf, pdfContent]);
+
   return (
     <div className="dynamic-form">
       {debug && (
@@ -146,16 +237,25 @@ const Form = ({ data = {}, output = {} }) => {
       )}
       {end && (
         <div className="dynamic-form-output">
-          {/* <button className="dynamic-form-button arrow" onClick={onPrevious}>
-            <span className="hide-on-mobile">Go Back</span>
-            <span className="hide-on-desktop">&larr;</span>
-          </button> */}
-          <button
-            className="dynamic-form-button start-over-button"
-            onClick={onStartOver}
-          >
-            Start Over
-          </button>
+          {/* Grouping the call-to-action buttons so the layout stays consistent across breakpoints. */}
+          <div className="dynamic-form-output-actions">
+            <button
+              className="dynamic-form-button start-over-button"
+              onClick={onStartOver}
+            >
+              Start Over
+            </button>
+            <button
+              className="dynamic-form-button active"
+              onClick={handleDownloadPdf}
+              disabled={isGeneratingPdf}
+            >
+              {isGeneratingPdf ? "Generating PDF..." : "Download PDF"}
+            </button>
+          </div>
+          {pdfError && (
+            <p className="dynamic-form-output-message error">{pdfError}</p>
+          )}
           <img
             className="question-item-logo"
             src="https://paperprisons.org/images/logo.png"
@@ -163,11 +263,10 @@ const Form = ({ data = {}, output = {} }) => {
           />
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">
-              Thank you for using our ID tool! If you follow the instructions
-              below, you'll be another step closer to getting your ID:
+              {THANK_YOU_MESSAGE}
             </p>
             <p className="dynamic-form-output-item-title">
-              Here is what you need to do:
+              {INSTRUCTION_INTRO}
             </p>
           </div>
           {data.raw
@@ -239,7 +338,7 @@ const Form = ({ data = {}, output = {} }) => {
           </div>
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">Contact</p>
-            Placeholder for test
+            {CONTACT_PLACEHOLDER}
           </div>
         </div>
       )}

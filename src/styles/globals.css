@@ -7,7 +7,6 @@
  * - Card-based layout with subtle shadows
  * - Mobile-first responsive design
  *
- * Updated: Phase 1 - Visual Design Overhaul
  */
 
 :root {
@@ -146,39 +145,46 @@ body {
   /* added */
 }
 
-.dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label {
-  border: 1px solid var(--border-medium);
-  padding: 1rem 1.25rem;
-  display: block;
+.dynamic-form-dropdown-question .dynamic-form-combobox {
+  position: relative;
   width: 100%;
   max-width: 400px;
-  position: relative;
+}
+
+.dynamic-form-dropdown-question .dynamic-form-combobox input {
+  width: 100%;
+  border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
+  padding: 1rem 2.75rem 1rem 1.25rem;
   background: var(--background-white);
   color: var(--text-dark);
   font-weight: var(--font-weight-medium);
-  transition: all 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   box-shadow: var(--shadow-sm);
-  cursor: pointer;
 }
 
-.dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label:hover {
+.dynamic-form-dropdown-question .dynamic-form-combobox input:focus {
+  outline: none;
   border-color: var(--primary-blue);
   box-shadow: var(--shadow-md);
 }
 
-.dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label::after {
+.dynamic-form-dropdown-question .dynamic-form-combobox button {
   position: absolute;
-  content: "";
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid var(--text-gray);
   top: 50%;
-  right: 1rem;
+  right: 0.75rem;
   transform: translateY(-50%);
-  transition: transform 0.2s ease-in-out;
+  border: none;
+  background: transparent;
+  color: var(--text-gray);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: var(--font-size-lg);
+}
+
+.dynamic-form-dropdown-question .dynamic-form-combobox button:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
 }
 
 /* ==========================================================================
@@ -238,6 +244,10 @@ body {
   position: relative;
 }
 
+.dynamic-form-select-field-option-highlight {
+  background-color: var(--border-light);
+}
+
 .dynamic-form-select-field-options li:after {
   position: absolute;
   right: 8px;
@@ -247,6 +257,13 @@ body {
   height: 10px;
   content: "✔️";
   display: none;
+}
+
+.dynamic-form-select-field-options-empty {
+  padding: 0.75rem 1.25rem;
+  color: var(--text-gray);
+  font-style: italic;
+  cursor: default;
 }
 
 .dynamic-form-radio-button-field {
@@ -323,6 +340,18 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+.dynamic-form-button:disabled {
+  /* Lock hover states and signal loading while the PDF is rendering. */
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+  background-color: var(--background-white);
+  color: var(--text-gray);
+  border-color: var(--border-medium);
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
 .dynamic-form-button.arrow {
   padding: 0.75rem 1rem;
 }
@@ -347,6 +376,29 @@ body {
   border-radius: var(--radius-xl);
   padding: 2.5rem;
   box-shadow: var(--shadow-lg);
+}
+
+.dynamic-form-output-actions {
+  /* Flex row keeps Start Over + Download buttons tidy on desktop and stacked on mobile. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.dynamic-form-output-actions .dynamic-form-button {
+  min-width: 160px;
+}
+
+.dynamic-form-output-message {
+  /* Inline feedback area for transient PDF generation errors. */
+  font-size: var(--font-size-sm);
+  margin-bottom: 1rem;
+  color: var(--text-gray);
+}
+
+.dynamic-form-output-message.error {
+  color: var(--accent-red);
 }
 
 .dynamic-form-output .dynamic-form-output-item {
@@ -390,13 +442,10 @@ body {
   display: block;
   margin: 0 auto 2rem;
   width: 140px;
-  /* was 100px — a touch larger but still safe, try 120px */
   height: auto;
   max-width: 100%;
   object-fit: contain;
-  /* force never crop the graphic */
   border-radius: 0;
-  /* removed rounding so letters aren’t clipped */
 }
 
 
