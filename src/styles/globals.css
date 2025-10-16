@@ -29,16 +29,17 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --font-scale: 1;
 
   /* Typography Scale */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
+  --font-size-xs: calc(0.75rem * var(--font-scale));
+  --font-size-sm: calc(0.875rem * var(--font-scale));
+  --font-size-base: calc(1rem * var(--font-scale));
+  --font-size-lg: calc(1.125rem * var(--font-scale));
+  --font-size-xl: calc(1.25rem * var(--font-scale));
+  --font-size-2xl: calc(1.5rem * var(--font-scale));
+  --font-size-3xl: calc(1.875rem * var(--font-scale));
+  --font-size-4xl: calc(2.25rem * var(--font-scale));
 
   --font-weight-light: 300;
   --font-weight-normal: 400;
@@ -133,22 +134,88 @@ body {
   cursor: pointer;
 }
 
+.font-scale-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--background-white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  max-width: 800px;
+}
+
+.font-scale-controls label {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.font-scale-range {
+  width: 100%;
+  accent-color: var(--primary-blue);
+}
+
+.font-scale-value {
+  font-size: var(--font-size-sm);
+  color: var(--text-gray);
+}
+
+.font-scale-controls-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.font-scale-reset {
+  border: 1px solid var(--border-medium);
+  background: var(--background-white);
+  color: var(--text-gray);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.font-scale-reset:hover,
+.font-scale-reset:focus {
+  background: var(--primary-blue);
+  color: var(--background-white);
+  outline: none;
+}
+
+.dynamic-form-dropdown-question {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dynamic-form-dropdown-question .dynamic-form-field-question-title,
+.dynamic-form-dropdown-question .dynamic-form-field-question-description {
+  max-width: 100%;
+}
+
 .dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper {
   position: relative;
-  display: inline-block;
-  /* <<< critical: shrink-wrap to content */
-  width: auto;
-  /* don’t stretch full row */
-  max-width: 400px;
-  /* keep consistent with your input width */
+  display: block;
+  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
-  /* added */
+  margin-top: 0.75rem;
 }
 
 .dynamic-form-dropdown-question .dynamic-form-combobox {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .dynamic-form-dropdown-question .dynamic-form-combobox input {
@@ -426,6 +493,96 @@ body {
   color: var(--text-dark);
 }
 
+.dynamic-form-output .dynamic-form-output-item .dynamic-form-output-item-content {
+  color: var(--text-gray);
+  line-height: var(--line-height-relaxed);
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  p {
+  margin: 0 0 1rem;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul,
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ol {
+  margin: 0 0 1rem;
+  padding-left: 1.75rem;
+  list-style-position: outside;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul {
+  list-style-type: disc;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul ul {
+  list-style-type: circle;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ol {
+  list-style-type: decimal;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  li {
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  li > p {
+  display: inline;
+  margin: 0;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  a {
+  color: var(--primary-blue);
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul ul,
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ol ol {
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  > :last-child {
+  margin-bottom: 0;
+}
+
 .question-item-wrapper {
   background: var(--background-white);
   border: 1px solid var(--border-light);
@@ -546,5 +703,33 @@ body {
 
   .email-form-wrapper {
     flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .font-scale-controls {
+    padding: 0.75rem 1rem;
+  }
+
+  .preface {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .question-item-wrapper,
+  .dynamic-form-output {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .dynamic-form-output .dynamic-form-output-item {
+    padding: 1.25rem;
+  }
+
+  .dynamic-form-output-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dynamic-form-output-actions .dynamic-form-button {
+    width: 100%;
   }
 }

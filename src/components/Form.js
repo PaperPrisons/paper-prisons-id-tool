@@ -13,6 +13,37 @@ const THANK_YOU_MESSAGE =
   "Thank you for using our ID tool! If you follow the instructions below, you'll be another step closer to getting your ID:";
 const INSTRUCTION_INTRO = "Here is what you need to do:";
 const CONTACT_PLACEHOLDER = "Placeholder for test";
+const FONT_SCALE_STORAGE_KEY = "paper-prisons-font-scale";
+const DEFAULT_FONT_SCALE = 1;
+const FONT_SCALE_MIN = 0.9;
+const FONT_SCALE_MAX = 1.3;
+const FONT_SCALE_STEP = 0.05;
+
+const sanitizeHtmlToText = (html = "") =>
+  html
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const normalizeResultMarkup = (html = "") =>
+  html
+    .replace(/\sstyle="[^"]*"/gi, "")
+    .replace(/\sstyle='[^']*'/gi, "")
+    .replace(/<span[^>]*>\s*<\/span>/gi, "")
+    .replace(/<p>\s*<\/p>/gi, "")
+    .replace(/\sclass="[^"]*"/gi, "")
+    .trim();
+
+const hasVisibleContent = (html = "") =>
+  sanitizeHtmlToText(normalizeResultMarkup(html)).length > 0;
 
 const getParameterValueByName = (name) => {
   name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
@@ -30,6 +61,7 @@ const Form = ({ data = {}, output = {} }) => {
   const [result, setResult] = useState({});
   const [nextDynamicId, setNextDynamicId] = useState(null);
   const [debug, setDebug] = useState(false);
+  const [fontScale, setFontScale] = useState(DEFAULT_FONT_SCALE);
   // Controls the feedback/loading state for the one-click PDF export button.
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [pdfError, setPdfError] = useState("");
@@ -105,6 +137,39 @@ const Form = ({ data = {}, output = {} }) => {
     setDebug(!!getParameterValueByName("debug"));
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const stored = window.localStorage.getItem(FONT_SCALE_STORAGE_KEY);
+    if (!stored) {
+      return;
+    }
+    const parsed = parseFloat(stored);
+    if (!Number.isNaN(parsed)) {
+      const clamped = Math.min(
+        Math.max(parsed, FONT_SCALE_MIN),
+        FONT_SCALE_MAX
+      );
+      setFontScale(clamped);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.style.setProperty(
+        "--font-scale",
+        fontScale.toString()
+      );
+    }
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        FONT_SCALE_STORAGE_KEY,
+        String(fontScale)
+      );
+    }
+  }, [fontScale]);
+
   // list of guidance blocks to print in the PDF so we work with
   // plain arrays of HTML strings when the results screen is visible.
   const pdfContent = useMemo(() => {
@@ -133,10 +198,15 @@ const Form = ({ data = {}, output = {} }) => {
           return;
         }
 
+        const cleanedHtml = normalizeResultMarkup(html);
+        if (!hasVisibleContent(cleanedHtml)) {
+          return;
+        }
+
         if (question.id === "SSN" || question.id === "Citizenship") {
-          supportingItems.push(html);
+          supportingItems.push(cleanedHtml);
         } else {
-          summaryItems.push(html);
+          summaryItems.push(cleanedHtml);
         }
       });
     }
@@ -187,8 +257,59 @@ const Form = ({ data = {}, output = {} }) => {
     }
   }, [end, isGeneratingPdf, pdfContent]);
 
+  const handleFontScaleChange = useCallback((event) => {
+    setFontScale(Number(event.target.value));
+  }, []);
+
+  const handleFontScaleReset = useCallback(() => {
+    setFontScale(DEFAULT_FONT_SCALE);
+  }, []);
+
+  const fontScalePercent = Math.round(fontScale * 100);
+
   return (
     <div className="dynamic-form">
+      <div
+        className="font-scale-controls"
+        role="group"
+        aria-labelledby="font-scale-label"
+      >
+        <label id="font-scale-label" htmlFor="font-scale-range">
+          <span>Adjust text size</span>
+          <span className="font-scale-value" aria-live="polite">
+            {fontScalePercent}%
+          </span>
+        </label>
+        <div className="font-scale-controls-actions">
+          <input
+            id="font-scale-range"
+            className="font-scale-range"
+            type="range"
+            min={FONT_SCALE_MIN}
+            max={FONT_SCALE_MAX}
+            step={FONT_SCALE_STEP}
+            value={fontScale}
+            onChange={handleFontScaleChange}
+            onInput={handleFontScaleChange}
+            aria-valuemin={FONT_SCALE_MIN}
+            aria-valuemax={FONT_SCALE_MAX}
+            aria-valuenow={fontScale}
+            aria-valuetext={`${fontScalePercent}% text size`}
+            aria-describedby="font-scale-help"
+          />
+          <button
+            type="button"
+            className="font-scale-reset"
+            onClick={handleFontScaleReset}
+          >
+            Reset
+          </button>
+        </div>
+        <p id="font-scale-help" className="font-scale-value">
+          Use the slider or arrow keys to choose the font size that feels most
+          comfortable.
+        </p>
+      </div>
       {debug && (
         <pre
           dangerouslySetInnerHTML={{
@@ -275,6 +396,12 @@ const Form = ({ data = {}, output = {} }) => {
               const resultOption = result[question.id];
               const outputQuestion = output[question.id];
               if (resultOption && outputQuestion) {
+                const html = normalizeResultMarkup(
+                  outputQuestion.options[resultOption]
+                );
+                if (!hasVisibleContent(html)) {
+                  return null;
+                }
                 return (
                   <div key={question.id} className="dynamic-form-output-item">
                     {debug && (
@@ -283,9 +410,10 @@ const Form = ({ data = {}, output = {} }) => {
                         dangerouslySetInnerHTML={{ __html: question.title }}
                       ></p>
                     )}
-                    <p
+                    <div
+                      className="dynamic-form-output-item-content"
                       dangerouslySetInnerHTML={{
-                        __html: outputQuestion.options[resultOption],
+                        __html: html,
                       }}
                     />
                   </div>
@@ -299,6 +427,12 @@ const Form = ({ data = {}, output = {} }) => {
               const resultOption = result[question.id];
               const outputQuestion = output[question.id];
               if (resultOption && outputQuestion) {
+                const html = normalizeResultMarkup(
+                  outputQuestion.options[resultOption]
+                );
+                if (!hasVisibleContent(html)) {
+                  return null;
+                }
                 return (
                   <div key={question.id} className="dynamic-form-output-item">
                     {debug && (
@@ -307,9 +441,10 @@ const Form = ({ data = {}, output = {} }) => {
                         dangerouslySetInnerHTML={{ __html: question.title }}
                       ></p>
                     )}
-                    <p
+                    <div
+                      className="dynamic-form-output-item-content"
                       dangerouslySetInnerHTML={{
-                        __html: outputQuestion.options[resultOption],
+                        __html: html,
                       }}
                     />
                   </div>
