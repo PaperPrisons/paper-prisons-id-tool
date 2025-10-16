@@ -1,4 +1,4 @@
-# Dynamic Dropdown Combobox Notes
+# Dynamic Dropdown Combobox
 
 ## Summary
 Dropdown questions now behave like accessible comboboxes. Users can type to filter long lists (e.g., states), navigate with arrow keys, and confirm with Enter. The control keeps the familiar dropdown layout while exposing the richer interactions requested by Paper Prisons staff.
@@ -27,7 +27,3 @@ Dropdown questions now behave like accessible comboboxes. Users can type to filt
 4. Test on mobile (touch interaction) to confirm tapping opens/closes and selects as expected.
 5. Ensure results export to PDF still uses the chosen option (no change expected).
 
-## Future Enhancements
-- Consider supporting fuzzy matching or highlighting the matching substring.
-- Add optional props for custom placeholders or disabled state if needed.
-- Integrate analytics hooks once question-level telemetry is defined.
