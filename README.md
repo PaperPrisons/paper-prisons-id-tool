@@ -11,7 +11,7 @@ graph LR
 ```
 
 - **Audience:** Individuals reentering the community, case workers, volunteers, and Paper Prisons staff who keep the guidance current.
-- **Why it matters:** ID requirements vary by state and change often; the tool centralizes the latest instructions so users get accurate, immediate support.
+- **Why it matters:** ID requirements vary by state and change often, the tool centralizes the latest instructions so users get accurate, immediate support.
 - **Tech stack:** Next.js 13 (React 18), global CSS, `public-google-sheets-parser`, `@react-pdf/renderer`, static export hosted on GitHub Pages.
 
 ## Highlights
@@ -30,7 +30,7 @@ Open http://localhost:3000 and press **Start**. The form automatically fetches q
 
 ### Prerequisites
 - Node.js 20 (see `.nvmrc`) and npm 8+
-- Public access to the Google Sheet `1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY` or your own published sheet.
+- Public access to the Google Sheet `1S9Ac06eAesmc4J8mgEdO6A083H2sfkPKEk7sbg3USGY` or personalised published sheet.
 
 ## Static Export & Deployment
 ```bash
