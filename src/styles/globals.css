@@ -1,119 +1,318 @@
+/**
+ * Paper Prisons ID Tool - Global Styles
+ *
+ * Design System:
+ * - Modern color palette with professional blue theme
+ * - CSS custom properties for maintainable theming
+ * - Card-based layout with subtle shadows
+ * - Mobile-first responsive design
+ *
+ */
+
+:root {
+  /* Modern Color Palette */
+  --primary-blue: #2563eb;
+  --primary-blue-hover: #1d4ed8;
+  --secondary-green: #059669;
+  --secondary-green-hover: #047857;
+  --accent-red: #dc2626;
+  --text-gray: #64748b;
+  --text-dark: #1e293b;
+  --background-light: #f8fafc;
+  --background-white: #ffffff;
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --font-scale: 1;
+
+  /* Typography Scale */
+  --font-size-xs: calc(0.75rem * var(--font-scale));
+  --font-size-sm: calc(0.875rem * var(--font-scale));
+  --font-size-base: calc(1rem * var(--font-scale));
+  --font-size-lg: calc(1.125rem * var(--font-scale));
+  --font-size-xl: calc(1.25rem * var(--font-scale));
+  --font-size-2xl: calc(1.5rem * var(--font-scale));
+  --font-size-3xl: calc(1.875rem * var(--font-scale));
+  --font-size-4xl: calc(2.25rem * var(--font-scale));
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'IBM Plex Sans', "Open Sans", sans-serif;
+  font-family: 'Inter', 'IBM Plex Sans', "Open Sans", system-ui, sans-serif;
 }
 
+body {
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  line-height: var(--line-height-normal);
+}
+
+/* ==========================================================================
+   LANDING PAGE COMPONENTS
+========================================================================== */
+
 .preface {
-  border: 1px solid black;
+  background: var(--background-white);
+  border: 1px solid var(--border-light);
   display: block;
   width: 90vw;
+  max-width: 800px;
   position: relative;
   margin: 10vh auto;
-  padding: 5vh 5vw;
-  border-radius: 10px;
+  padding: 3rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
 }
 
 .preface h1 {
   text-align: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  line-height: var(--line-height-tight);
 }
 
 .start-button {
   display: block;
-  margin: 30px auto;
+  margin: 2rem auto 0;
 }
 
 .preface p {
-  margin-top: 10px;
+  margin-top: 1.25rem;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-gray);
+}
+
+.preface p:first-of-type {
+  font-size: var(--font-size-xl);
+  color: var(--text-dark);
+  font-weight: var(--font-weight-medium);
 }
 
 .preface .disclaimer {
-  font-size: 12px;
-  color: gray;
+  font-size: var(--font-size-sm);
+  color: var(--text-gray);
   font-style: italic;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--background-light);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-blue);
 }
 
+/* ==========================================================================
+   DYNAMIC FORM LAYOUT
+========================================================================== */
+
 .dynamic-form {
-  padding: 10vh 5vw;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  background: var(--background-light);
 }
 
 .dynamic-form-field label {
   cursor: pointer;
 }
 
+.font-scale-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--background-white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  max-width: 800px;
+}
+
+.font-scale-controls label {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.font-scale-range {
+  width: 100%;
+  accent-color: var(--primary-blue);
+}
+
+.font-scale-value {
+  font-size: var(--font-size-sm);
+  color: var(--text-gray);
+}
+
+.font-scale-controls-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.font-scale-reset {
+  border: 1px solid var(--border-medium);
+  background: var(--background-white);
+  color: var(--text-gray);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.font-scale-reset:hover,
+.font-scale-reset:focus {
+  background: var(--primary-blue);
+  color: var(--background-white);
+  outline: none;
+}
+
+.dynamic-form-dropdown-question {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dynamic-form-dropdown-question .dynamic-form-field-question-title,
+.dynamic-form-dropdown-question .dynamic-form-field-question-description {
+  max-width: 100%;
+}
+
 .dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper {
   position: relative;
-}
-
-.dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label {
-  border: 1px solid black;
-  padding: 1px 10px 1px 10px;
   display: block;
-  width: 60vw;
-  position: relative;
-  border-radius: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.75rem;
 }
 
-.dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label::after {
-  position: absolute;
-  content: "";
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 10px solid black;
-  top: 50%;
-  right: 6px;
-  transform: translateY(-50%);
+.dynamic-form-dropdown-question .dynamic-form-combobox {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
 }
+
+.dynamic-form-dropdown-question .dynamic-form-combobox input {
+  width: 100%;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 1rem 2.75rem 1rem 1.25rem;
+  background: var(--background-white);
+  color: var(--text-dark);
+  font-weight: var(--font-weight-medium);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: var(--shadow-sm);
+}
+
+.dynamic-form-dropdown-question .dynamic-form-combobox input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-md);
+}
+
+.dynamic-form-dropdown-question .dynamic-form-combobox button {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--text-gray);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: var(--font-size-lg);
+}
+
+.dynamic-form-dropdown-question .dynamic-form-combobox button:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   FORM FIELD COMPONENTS
+========================================================================== */
 
 .dynamic-form-field-question-title {
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: 10px;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+  line-height: var(--line-height-tight);
 }
 
 .dynamic-form-field-question-description {
-  font-size: 16px;
-  font-style: italic;
+  font-size: var(--font-size-base);
+  color: var(--text-gray);
+  margin-bottom: 1.5rem;
+  line-height: var(--line-height-relaxed);
 }
 
 .dynamic-form-select-field-options {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
-  width: 50vw;
-  max-width: 100%;
-  height: 124px;
+  right: 0;
+  width: 100%;
+  max-height: 200px;
   overflow-y: auto;
-  background: white;
-  border: 1px solid black;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.2);
+  background: var(--background-white);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-lg);
   z-index: 98;
   list-style: none;
   margin: 0;
-  padding: 0;
-  border-radius: 10px;
+  padding: 0.5rem 0;
+  border-radius: var(--radius-md);
+  margin-top: 0.25rem;
 }
 
 .dynamic-form-select-field-options li {
-  height: 24px;
-  line-height: 24px;
+  padding: 0.75rem 1.25rem;
   margin: 0;
-  padding: 0 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: var(--font-weight-medium);
 }
 
 .dynamic-form-select-field-options li:hover {
-  color: white;
-  background-color: #6458ab;
-  cursor: pointer;
+  color: var(--background-white);
+  background-color: var(--primary-blue);
 }
 
 .dynamic-form-select-field-options li.dynamic-form-select-field-option-active {
-  color: white;
-  background-color: #6458ab;
+  color: var(--background-white);
+  background-color: var(--primary-blue);
   position: relative;
+}
+
+.dynamic-form-select-field-option-highlight {
+  background-color: var(--border-light);
 }
 
 .dynamic-form-select-field-options li:after {
@@ -127,9 +326,16 @@
   display: none;
 }
 
+.dynamic-form-select-field-options-empty {
+  padding: 0.75rem 1.25rem;
+  color: var(--text-gray);
+  font-style: italic;
+  cursor: default;
+}
+
 .dynamic-form-radio-button-field {
-  margin: 10px 0;
-  padding: 6px 0;
+  margin: 0.75rem 0;
+  transition: all 0.2s ease-in-out;
 }
 
 .dynamic-form-radio-button-field input {
@@ -139,15 +345,28 @@
 .dynamic-form-radio-button-field label {
   cursor: pointer;
   display: block;
-  border: 1px solid;
-  border-radius: 10px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
   width: 100%;
-  padding: 5px 10px;
+  padding: 1rem 1.25rem;
+  background: var(--background-white);
+  color: var(--text-dark);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-sm);
+}
+
+.dynamic-form-radio-button-field label:hover {
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .dynamic-form-radio-button-field.dynamic-form-radio-button-field-checked label {
-  color: white;
-  background-color: #6458ab;
+  color: var(--background-white);
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-md);
 }
 
 .dynamic-form-buttons {
@@ -157,40 +376,110 @@
   justify-content: space-between;
 }
 
-.dynamic-form-button{
-  padding: 6px 50px;
+/* ==========================================================================
+   BUTTON COMPONENTS
+========================================================================== */
+
+.dynamic-form-button {
+  padding: 0.75rem 2rem;
   cursor: pointer;
-  background-color: transparent;
-  border: 1px solid black;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  background-color: var(--background-white);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.75rem;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-dark);
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-sm);
+}
+
+.dynamic-form-button:hover {
+  background-color: var(--primary-blue);
+  color: var(--background-white);
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.dynamic-form-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.dynamic-form-button:disabled {
+  /* Lock hover states and signal loading while the PDF is rendering. */
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+  background-color: var(--background-white);
+  color: var(--text-gray);
+  border-color: var(--border-medium);
+  transform: none;
+  box-shadow: var(--shadow-sm);
 }
 
 .dynamic-form-button.arrow {
-  padding: 6px 10px;
+  padding: 0.75rem 1rem;
 }
 
 .dynamic-form-button.active {
-  background-color: #6458ab;
-  color: white;
-  border-color: #6458ab;
+  background-color: var(--primary-blue);
+  color: var(--background-white);
+  border-color: var(--primary-blue);
 }
 
+/* ==========================================================================
+   RESULTS PAGE COMPONENTS
+========================================================================== */
+
 .dynamic-form-output {
-  border: 2px solid black;
+  background: var(--background-white);
+  border: 1px solid var(--border-light);
   display: block;
   width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  padding: 24px 48px 48px;
+  max-width: 1000px;
+  margin: 2rem auto;
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.dynamic-form-output-actions {
+  /* Flex row keeps Start Over + Download buttons tidy on desktop and stacked on mobile. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.dynamic-form-output-actions .dynamic-form-button {
+  min-width: 160px;
+}
+
+.dynamic-form-output-message {
+  /* Inline feedback area for transient PDF generation errors. */
+  font-size: var(--font-size-sm);
+  margin-bottom: 1rem;
+  color: var(--text-gray);
+}
+
+.dynamic-form-output-message.error {
+  color: var(--accent-red);
 }
 
 .dynamic-form-output .dynamic-form-output-item {
-  margin: 10px 0;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--background-light);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-blue);
 }
 
 .dynamic-form-output .dynamic-form-output-item p {
-  margin-left: 2em;
+  margin-left: 0;
+  line-height: var(--line-height-relaxed);
+  color: var(--text-gray);
 }
 
 .dynamic-form-output .dynamic-form-output-item p.dynamic-form-output-item-title {
@@ -198,68 +487,182 @@
 }
 
 .dynamic-form-output .dynamic-form-output-item .dynamic-form-output-item-title {
-  font-size: 18px;
-  margin-bottom: 10px;
-  font-weight: 400;
+  font-size: var(--font-size-xl);
+  margin-bottom: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+}
+
+.dynamic-form-output .dynamic-form-output-item .dynamic-form-output-item-content {
+  color: var(--text-gray);
+  line-height: var(--line-height-relaxed);
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  p {
+  margin: 0 0 1rem;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul,
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ol {
+  margin: 0 0 1rem;
+  padding-left: 1.75rem;
+  list-style-position: outside;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul {
+  list-style-type: disc;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul ul {
+  list-style-type: circle;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ol {
+  list-style-type: decimal;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  li {
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  li > p {
+  display: inline;
+  margin: 0;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  a {
+  color: var(--primary-blue);
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ul ul,
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  ol ol {
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+}
+
+.dynamic-form-output
+  .dynamic-form-output-item
+  .dynamic-form-output-item-content
+  > :last-child {
+  margin-bottom: 0;
 }
 
 .question-item-wrapper {
-  border: 2px solid black;
+  background: var(--background-white);
+  border: 1px solid var(--border-light);
   display: block;
   width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  padding: 24px 48px 48px;
+  max-width: 800px;
+  margin: 2rem auto;
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
 }
 
 .question-item-logo {
-  width: 80px;
   display: block;
-  margin: 0 auto 24px;
+  margin: 0 auto 2rem;
+  width: 140px;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 0;
 }
 
+
 .email-form-wrapper {
-  margin: 0 auto;
-  text-align: center;
+  margin: 2rem auto;
   display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .email-field {
-  height: 32px;
-  border-radius: 5px;
-  border-color: gray;
-  padding-left: 4px;
-  margin-right: 10px;
+  flex: 1;
+  max-width: 300px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  transition: border-color 0.2s ease-in-out;
+  box-shadow: var(--shadow-sm);
+}
+
+.email-field:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
 }
 
 .dynamic-form-button.start-over-button {
   float: right;
-  padding: 5px 10px;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--background-white);
+  color: var(--text-gray);
+  border-color: var(--border-medium);
+}
+
+.dynamic-form-button.start-over-button:hover {
+  background-color: var(--accent-red);
+  color: var(--background-white);
+  border-color: var(--accent-red);
 }
 
 .email-form-wrapper .dynamic-form-button {
   padding: 6px;
 }
 
-.dynamic-form-button:hover {
-  background-color: #6458ab;
-  color: white;
-  border-color: #6458ab;
-}
 
-.dynamic-form-radio-button-field label:hover {
-  color: white;
-  background-color: #6458ab;
-  cursor: pointer;
-}
 
 .hide-on-mobile {
   display: none;
 }
 
-@media (min-width: 1024px) {
+/* ==========================================================================
+   RESPONSIVE DESIGN
+========================================================================== */
+
+@media (min-width: 768px) {
   .hide-on-desktop {
-    display: none ;
+    display: none;
   }
 
   .hide-on-mobile {
@@ -267,33 +670,66 @@
   }
 
   .preface {
-    max-width: 1000px;
+    padding: 4rem;
   }
 
   .dynamic-form {
-    max-width: 1000px;
-    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .question-item-wrapper {
+    padding: 3rem 4rem;
+  }
+
+  .dynamic-form-output {
+    padding: 3rem 4rem;
   }
 
   .dynamic-form-dropdown-question .dynamic-form-dropdown-question-options-wrapper label {
-    max-width: 100%;
-    width: 50vw;
+    max-width: 500px;
   }
 
   .dynamic-form-button.arrow {
-    padding: 6px 50px;
-  }
-
-  .dynamic-form-radio-button-field {
-    padding: 0;
+    padding: 0.75rem 2rem;
   }
 
   .dynamic-form-button.start-over-button {
-    padding: 6px 50px;
+    padding: 0.75rem 2rem;
   }
 
   .email-field {
-    width: 200px;
-    margin-bottom: 0;
+    max-width: 400px;
+  }
+
+  .email-form-wrapper {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .font-scale-controls {
+    padding: 0.75rem 1rem;
+  }
+
+  .preface {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .question-item-wrapper,
+  .dynamic-form-output {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .dynamic-form-output .dynamic-form-output-item {
+    padding: 1.25rem;
+  }
+
+  .dynamic-form-output-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dynamic-form-output-actions .dynamic-form-button {
+    width: 100%;
   }
 }
