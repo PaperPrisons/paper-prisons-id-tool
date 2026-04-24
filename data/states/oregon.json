@@ -1,0 +1,24 @@
+{
+  "state": "Oregon",
+  "slug": "oregon",
+  "dmv_links": [
+    "https://www.oregon.gov/ODOT/DMV/Pages/DriverID/Index.aspx"
+  ],
+  "data_flags": {
+    "is_link_only": false,
+    "has_dl_id_split": true,
+    "external_guide_url": null,
+    "last_verified_date": null,
+    "source": "FirststepID_Links.xlsx — extracted March 2026",
+    "data_quality_note": null
+  },
+  "summary": "Proof of ID (unexpired), name (if not listed on ID), and 2 forms for address that show current name and address",
+  "proof_of_identity": "Proof of ID:\n• U.S. passport or U.S. passport card\n• U.S. birth certificate issued by a state or local government\n• Certificate of Citizenship\n• Certificate of Naturalization\n• Consular Report of Birth Abroad\n• Permanent Resident Card\n• Employment Authorization Card\n• Foreign Passport with U.S. visa not expired and valid I-94 issued by DHS\n\nProof of Name (if not on ID):\n• Oregon driver license, instruction\npermit, or identification card,\nexpired no more than one year.\n• Out-of-state driver license, expired\nno more than one year.\n• Tribal ID card issued by a federally\nrecognized tribe located in Oregon\nor with an Oregon affiliation,\napproved by DMV.\n• Oregon Concealed Weapon Permit/\nConcealed Handgun License,\nexpired no more than one year.\n• Military ID card, Common Access\ncard, Uniform Services ID & Privilege\ncard including all branches of\nmilitary personnel and dependents,\nnot including Merchant Marines.\n• Canadian government issued birth\ncertificate.\n• An official government issued\nmarriage certificate/license.\n• A U.S. city, county or state courtissued legal name change decree.\n• A record of Domestic Partnership\nissued by Oregon Vital Statistics.\n• An out-of-state government issued\nrecord of Domestic Partnership.\n• A U.S. city, county or state courtissued divorce decree, judgment of\ndissolution of marriage, annulment\nof marriage decree, judgment of\ndissolution of domestic partnership,\nor annulment of domestic\npartnership.\n• A government-issued death\ncertificate of spouse which includes\nyour current full legal name.\n• A U.S. city, county or state courtissued adoption decree.\n• A U.S. city, county or state\ncourt-issued custody decree or\nguardianship decree.",
+  "proof_of_ssn": null,
+  "proof_of_residency": "Submit TWO of the following documents:\n• Oregon license, permit or identification card, expired no more\nthan one year; OR an Oregon vehicle title or registration card.\n• Any item delivered by the United States Postal Service, FedEx, or UPS sent by a verifiable business or government agency.\n• Utility hook-up order or utility statement issued by the service provider.\n• Any document issued by a financial institution that includes your residence address.\n• Rental/Lease Agreement.\n• Oregon voter notification card or voter profile report or Selective Service card.\n• Any document issued by an educational institution.\n• Any document issued by an insurance company or agent.\n• Paycheck, pay stub, W-2 or 1099 tax form.\n• DMV form 735-7480, Affidavit of Shared Residence, completed by        \nany person living at the same residence address you listed on your\napplication. Person must accompany you to the DMV and provide their own proof of address.\n• A U.S. government-issued marriage certificate or license signed by a government official.",
+  "proof_of_name_change": null,
+  "non_citizen_requirements": null,
+  "other_requirements": null,
+  "vital_records_link": "https://www.oregon.gov/oha/PH/BirthDeathCertificates/GetVitalRecords/Pages/index.aspx",
+  "vital_records_id_requirement": null
+}

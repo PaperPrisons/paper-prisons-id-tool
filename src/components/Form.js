@@ -1,3 +1,4 @@
+import Chatbot from './chatBot'; // Change to './chatBot' ONLY if your file is literally named chatBot.js
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import FormRadioButtonQuestion from "./FormRadioButtonQuestion";
@@ -65,6 +66,7 @@ const Form = ({ data = {}, output = {} }) => {
   // Controls the feedback/loading state for the one-click PDF export button.
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [pdfError, setPdfError] = useState("");
+  
   const onChange = (id, value, option) => {
     setResult({
       ...result,
@@ -75,14 +77,17 @@ const Form = ({ data = {}, output = {} }) => {
     const question = data.dynamic[id];
     const staticId = question.staticId;
     let nextDynamicIdFromCurrent = nextDynamicId;
+    
     if (question.isStatic && data.dynamic[value]) {
       nextDynamicIdFromCurrent = value;
     } else if (!question.isStatic && data.dynamic[`${id}${value}`]) {
       nextDynamicIdFromCurrent = `${id}${value}`;
     }
+    
     if (nextDynamicIdFromCurrent) {
       setNextDynamicId(!endSurvey ? nextDynamicIdFromCurrent : null);
     }
+    
     if (staticId < data.static.length - 1 && !endSurvey) {
       setCurrent(data.static[staticId + 1]);
       setQuestionStack(data.static.slice(0, staticId + 2));
@@ -266,7 +271,19 @@ const Form = ({ data = {}, output = {} }) => {
   }, []);
 
   const fontScalePercent = Math.round(fontScale * 100);
-
+  // Look through all the answers the user has selected so far to find the state
+  const getCurrentState = () => {
+    // Convert all selected answers to lowercase to make matching easy
+    const answers = Object.values(result).map(val => String(val).toLowerCase());
+    
+    if (answers.some(a => a.includes("california"))) return "california";
+    if (answers.some(a => a.includes("utah"))) return "utah";
+    if (answers.some(a => a.includes("oregon"))) return "oregon";
+    if (answers.some(a => a.includes("nevada"))) return "nevada";
+    if (answers.some(a => a.includes("washington"))) return "washington";
+    
+    return ""; // If they haven't picked a state yet, return an empty string
+  };
   return (
     <div className="dynamic-form">
       <div
@@ -310,6 +327,7 @@ const Form = ({ data = {}, output = {} }) => {
           comfortable.
         </p>
       </div>
+      
       {debug && (
         <pre
           dangerouslySetInnerHTML={{
@@ -324,17 +342,11 @@ const Form = ({ data = {}, output = {} }) => {
           }}
         />
       )}
+      
       {!end && current && (
         <div className="question-item-wrapper">
           {questionStack.length > 1 && !end && (
             <>
-              {/* <button
-                className="dynamic-form-button  arrow"
-                onClick={onPrevious}
-              >
-                <span className="hide-on-mobile">Go Back</span>
-                <span className="hide-on-desktop">&larr;</span>
-              </button> */}
               <button
                 className="dynamic-form-button  arrow"
                 onClick={onStartOver}
@@ -356,9 +368,9 @@ const Form = ({ data = {}, output = {} }) => {
           })}
         </div>
       )}
+      
       {end && (
         <div className="dynamic-form-output">
-          {/* Grouping the call-to-action buttons so the layout stays consistent across breakpoints. */}
           <div className="dynamic-form-output-actions">
             <button
               className="dynamic-form-button start-over-button"
@@ -390,6 +402,7 @@ const Form = ({ data = {}, output = {} }) => {
               {INSTRUCTION_INTRO}
             </p>
           </div>
+          
           {data.raw
             .filter((q) => q.id != "SSN" && q.id != "Citizenship")
             .map((question) => {
@@ -421,6 +434,7 @@ const Form = ({ data = {}, output = {} }) => {
               }
               return null;
             })}
+            
           {data.raw
             .filter((q) => q.id == "SSN" || q.id == "Citizenship")
             .map((question) => {
@@ -452,6 +466,7 @@ const Form = ({ data = {}, output = {} }) => {
               }
               return null;
             })}
+            
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">
               Send the result to as email:
@@ -477,6 +492,15 @@ const Form = ({ data = {}, output = {} }) => {
           </div>
         </div>
       )}
+
+      {/* The Chatbot is safely rendered here inside the main wrapper */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <Chatbot 
+          stateSlug={getCurrentState()}
+          formContext={end ? "The user is looking at their final results and PDF checklist." : "The user is answering the form questions."} 
+        />
+      </div>
+
     </div>
   );
 };

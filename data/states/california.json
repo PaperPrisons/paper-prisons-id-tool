@@ -1,0 +1,24 @@
+{
+  "state": "California",
+  "slug": "california",
+  "dmv_links": [
+    "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/renew-your-driver-license-dl-or-identification-card-id/"
+  ],
+  "data_flags": {
+    "is_link_only": false,
+    "has_dl_id_split": false,
+    "external_guide_url": null,
+    "last_verified_date": null,
+    "source": "FirststepID_Links.xlsx — extracted March 2026",
+    "data_quality_note": null
+  },
+  "summary": "SSN, proof of identity, proof of residency",
+  "proof_of_identity": "Provide one of the following:\n-Valid, unexpired U.S. passport or passport card (passport website link)\n-Original or Certified copy of U.S birth certificate (issued by a city, county, or state vital statistics office). “Abbreviated” or “Abstract” certificates are NOT accepted\n-U.S. Certificate of Birth Abroad or Consular Report of Birth Abroad of U.S. Citizen\n-Unexpired foreign passport with valid U.S. Visa and approved I-94 form\n-Certified copy of birth certificate from a U.S. Territory\n-Certificate of Naturalization or Certificate of U.S. Citizenship\n-Valid, unexpired Permanent Resident Card\n-Valid, unexpired Employment Authorization Document (EAD) Card (I-766) or valid/expired EAD Card with Notice of Action (I-797 C)\n-Valid/expired Permanent Resident Card with Notice of Action (I-797 C) or Approval Notice (I-797)\n-Unexpired foreign passport stamped “Processed for I-551”",
+  "proof_of_ssn": "Provide your Social Security Number",
+  "proof_of_residency": "Provide one of the following:\n-Rental or lease agreement with the signature of the owner/landlord and the tenant/resident\n-Deed or title to residential real property\n-Mortgage bill\n-Home utility bill (including cellular phone)\n-School documents issued by a public or private primary, secondary, or post-secondary institution, college, or university that includes the applicant's date of birth. If using a foreign school document, it must be sealed by the school and include a photograph of the applicant at the age the record was issued\n-Medical documents\n-Employment documents\n-Insurance documents, including medical, dental, vision, life, home, rental or vehicle\n-Tax return (either Internal Revenue Service (IRS) or California Franchise Tax Board (FTB)\n-Change of Address Confirmation by the U.S. Postal Service\n-Property tax bill or statement\n-Faith-based document that includes the name and address of organization\n-Records from any state or national bank, state or federal savings association, trust company, industrial loan company, state or federal credit union, or any institution or entity that has issued a credit card\n-Voter registration confirmation letter or postcard issued by the California Secretary of State or a local California county elections officer\n-Proof of payment of resident tuition at a public institution of higher education in California\n-An original copy of an approved Claim for Homeowners’ Property Tax Exemption (BOE-266) form filed with a local California County Assessor\n-Court documents that list the applicant as a resident of California\n-Letter attesting that the applicant resides in California from a homeless shelter, shelter for abused women, non-profit entity, faith-based organization, employer or government agency within the United States\n-A document issued by a U.S. government agency, meaning the entity, office, or authority governing over a country, state, county, city, municipality, district, agency, department, or any other political subdivision of a country or state\n-California Certificate of Vehicle or Vessel Titles or registration",
+  "proof_of_name_change": "If the name on your identity document is different from the name you provided on your application, you must submit a document that establishes your true full name. For example:\n\n-Adoption documents that contain the legal names as a result of adoption.\n-A name change document that contains the legal name both before and after the name change.\n-A marriage certificate.\n-A certificate, declaration, or registration document verifying the formation of a domestic partnership.\n-A dissolution of marriage/domestic partnership document that contains the legal name as a result of the court action.",
+  "non_citizen_requirements": null,
+  "other_requirements": null,
+  "vital_records_link": "https://www.cdph.ca.gov/Programs/CHSI/Pages/Vital-Records.aspx",
+  "vital_records_id_requirement": null
+}

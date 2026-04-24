@@ -1,0 +1,24 @@
+{
+  "state": "Utah",
+  "slug": "utah",
+  "dmv_links": [
+    "https://dld.utah.gov/license-permit-idcard-cdl/"
+  ],
+  "data_flags": {
+    "is_link_only": false,
+    "has_dl_id_split": false,
+    "external_guide_url": null,
+    "last_verified_date": null,
+    "source": "FirststepID_Links.xlsx — extracted March 2026",
+    "data_quality_note": null
+  },
+  "summary": "Birth certificate/passport/naturalization; proof of address; ssn verification",
+  "proof_of_identity": "Identity and Legal/Lawful Status Verification (must\nprovide one)\n- Valid, unexpired U.S. passport or passport card; or\n- Certified copy of a birth certificate filed with the State\nOffice of Vital Statistics or equivalent agency in the\nindividual's state of birth (small laminated birthcertificates\nor hospital certificates will not be accepted); or\n- Consular Report of Birth Abroad (CRBA) issued by the\nU.S. Department of State, Form FS-240, DS-1350, or FS545; or\n- Valid, unexpired Permanent Resident Card,\nConditional Permanent Resident Card, Form I-551\nor\n- Certificate of Naturalization issued by DHS, Form\nN-550 or Form N-570; or\n- Certificate of Citizenship, Form N-560 or Form\nN-561, issued by DHS",
+  "proof_of_ssn": "Social Security Verification (must provide one)\n- Social Security card issued by the U.S. government\nthat has been signed (stub will not be accepted); or\n- If the Social Security card is not available, the\napplicant may present one of the following documents\nwhich contain the applicant's name and full Social\nSecurity Number:\n    - W-2 form;\n    - SSA-1099 form;\n    - Non SSA-1099 form;\n    - Pay stub showing the applicant's name\nand full Social Security Number; or\n- Letter from the Social Security Administration\nindicating ineligibility to obtain a Social Security\nnumber as a result of their legal/lawful presence\nstatus",
+  "proof_of_residency": "Utah Residency/Mailing Verification if different than\ncurrent Utah Driver License record (must provide two)\n- Must display the applicant's name and principal Utah\nresidence address which may include:\n- Bank statement\n- Court documents;\n- Current mortgage or rental contract;\n- Major credit card bill;\n- Property tax notice;\n- School transcript;\n- Utility bill;\n- Vehicle title.\n - Residency/Mailing verification dated over 90\ndays may be reviewed by the Division prior to\nacceptance.",
+  "proof_of_name_change": "- **Any name variation from your identity document\nmust be accompanied by legal documentation\nauthorizing the name change (marriage, divorce or\ncourt order).",
+  "non_citizen_requirements": "If you are in the United States legally but not a U.S. Citizen, U.S. National or Permanent Resident\nAlien, you must provide the following documentation to obtain a Limited-Term Driver License,\nLimited-Term Learner Permit, Limited-Term Identification Card, or Limited-Term Commercial\nDriver License.\n\nIdentity (must provide one)\n- Unexpired Employment Authorization Document (EAD) issued by DHS,\nForm I-766 or Form I-688B; verified by the Systematic Alien Verificationfor\nEntitlements system (SAVE); or\n- Unexpired foreign passport with a valid visa and I-94 verified through\nSAVE;\n\nProof of Legal/Lawful Presence (must provide one)\n- A document issued by the U.S. Federal Government that establishes\nproof of one of the below statuses providing evidence of lawfulentrance\ninto the United States of America verified through SAVE:\n- Unexpired immigrant or nonimmigrant visa status for admission\ninto the United States issued by the U.S. FederalGovernment;\n- Pending or approved application for asylum in the United States;\n- Admission into the United States as a refugee;\n- Pending or approved application for temporary protected status in\nthe United States;\n- Approved deferred action status; or\n- Pending application for adjustment of status to legal permanent\nresident.\n\n(Same SSN & residency requirements)",
+  "other_requirements": "https://dld.utah.gov/wp-content/uploads/sites/17/2019/09/DLD-335-English-REV-8.19.pdf",
+  "vital_records_link": "https://vitalrecords.utah.gov/certificates/order-a-vital-record-certificate",
+  "vital_records_id_requirement": null
+}
