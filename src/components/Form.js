@@ -45,14 +45,6 @@ const normalizeResultMarkup = (html = "") =>
 const hasVisibleContent = (html = "") =>
   sanitizeHtmlToText(normalizeResultMarkup(html)).length > 0;
 
-const escapeHtml = (text = "") =>
-  text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-
 const getParameterValueByName = (name) => {
   name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
   const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
@@ -73,7 +65,6 @@ const Form = ({ data = {}, output = {} }) => {
   // Controls the feedback/loading state for the one-click PDF export button.
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [pdfError, setPdfError] = useState("");
-
   const onChange = (id, value, option) => {
     setResult({
       ...result,
@@ -226,164 +217,6 @@ const Form = ({ data = {}, output = {} }) => {
       contactSection: CONTACT_PLACEHOLDER,
     };
   }, [end, data.raw, output, result]);
-
-  // NEW: Build a plain-text email body from the same pdfContent
-  const emailBody = useMemo(() => {
-    if (!end) return "";
-
-    const parts = [];
-
-    const pushClean = (value) => {
-      const text = sanitizeHtmlToText(value || "");
-      if (text) {
-        parts.push(text);
-      }
-    };
-
-    // Intro
-    pushClean(THANK_YOU_MESSAGE);
-    pushClean(INSTRUCTION_INTRO);
-
-    // Main guidance
-    if (Array.isArray(pdfContent.summaryItems)) {
-      pdfContent.summaryItems.forEach((item) => {
-        // Avoid duplicating the static intro strings
-        if (
-          item === THANK_YOU_MESSAGE ||
-          item === INSTRUCTION_INTRO
-        ) {
-          return;
-        }
-        pushClean(item);
-      });
-    }
-
-    // Supporting info
-    if (
-      Array.isArray(pdfContent.supportingItems) &&
-      pdfContent.supportingItems.length > 0
-    ) {
-      parts.push("Additional notes:");
-      pdfContent.supportingItems.forEach((item) => pushClean(item));
-    }
-
-    // Contact section
-    if (pdfContent.contactSection) {
-      parts.push("Contact:");
-      pushClean(pdfContent.contactSection);
-    }
-
-    // Final assembled email text
-    return [
-      "Hello,",
-      "",
-      "Here is your Paper Prisons ID guidance based on your answers:",
-      "",
-      ...parts,
-      "",
-      "If you have questions or need help, please reach out to the Paper Prisons team.",
-      "",
-      "- Paper Prisons Project",
-    ].join("\n");
-  }, [end, pdfContent]);
-
-  const emailHtml = useMemo(() => {
-    if (!end) return "";
-
-    const renderGuidanceHtml = (item) => {
-      if (!item) return "";
-      if (typeof item !== "string") {
-        return "";
-      }
-      const trimmed = item.trim();
-      if (!trimmed) return "";
-      if (trimmed.startsWith("<")) {
-        const cleaned = normalizeResultMarkup(trimmed);
-        return hasVisibleContent(cleaned)
-          ? cleaned
-          : `<p>${escapeHtml(sanitizeHtmlToText(trimmed))}</p>`;
-      }
-      return `<p>${escapeHtml(trimmed)}</p>`;
-    };
-
-    const renderSection = (title, items = []) => {
-      const htmlItems = items
-        .map(renderGuidanceHtml)
-        .filter(Boolean)
-        .join("");
-      if (!htmlItems) {
-        return "";
-      }
-      return `
-        <section style="margin-bottom:24px;">
-          <h3 style="margin:0 0 12px;font-size:18px;color:#111827;">${escapeHtml(
-            title
-          )}</h3>
-          ${htmlItems}
-        </section>
-      `;
-    };
-
-    const summaryItems = [];
-    summaryItems.push(`<p>${escapeHtml(THANK_YOU_MESSAGE)}</p>`);
-    summaryItems.push(`<p>${escapeHtml(INSTRUCTION_INTRO)}</p>`);
-
-    if (Array.isArray(pdfContent.summaryItems)) {
-      pdfContent.summaryItems.forEach((item) => {
-        if (item === THANK_YOU_MESSAGE || item === INSTRUCTION_INTRO) {
-          return;
-        }
-        const rendered = renderGuidanceHtml(item);
-        if (rendered) {
-          summaryItems.push(rendered);
-        }
-      });
-    }
-
-    const supportingItems = Array.isArray(pdfContent.supportingItems)
-      ? pdfContent.supportingItems
-          .map(renderGuidanceHtml)
-          .filter((item) => !!item)
-      : [];
-
-    const contactItems = pdfContent.contactSection
-      ? [renderGuidanceHtml(pdfContent.contactSection)].filter(
-          (item) => !!item
-        )
-      : [];
-
-    const sections = [
-      renderSection("Your guidance", summaryItems),
-      renderSection("Additional notes", supportingItems),
-      renderSection("Contact", contactItems),
-    ]
-      .filter(Boolean)
-      .join("");
-
-    if (!sections) {
-      return "";
-    }
-
-    return `<!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="UTF-8" />
-          <title>Paper Prisons ID Guidance</title>
-        </head>
-        <body style="font-family:Inter,Arial,sans-serif;color:#111827;background-color:#f8fafc;margin:0;padding:24px;">
-          <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:24px;">
-            <h2 style="margin-top:0;color:#0f172a;font-size:22px;">Your Paper Prisons ID results</h2>
-            ${sections}
-            <p style="color:#334155;font-size:14px;margin-top:24px;">
-              If you have questions or need help, please reply to this email and the Paper Prisons team will assist you.
-            </p>
-          </div>
-        </body>
-      </html>`;
-  }, [end, pdfContent]);
-
-  const emailEndpoint =
-    process.env.NEXT_PUBLIC_EMAIL_ENDPOINT || "http://localhost:8888/send_email.php";
 
   // Triggers lazy-imported PDF rendering, streams the result to the browser,
   // and provides minimal UX messaging when generation fails.
@@ -619,64 +452,25 @@ const Form = ({ data = {}, output = {} }) => {
               }
               return null;
             })}
-
-          {/* NEW: Email me my results section */}
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">
-              Send these results to my email:
+              Send the result to as email:
             </p>
-
-            <form
-              className="email-form-wrapper"
-              method="POST"
-              action={emailEndpoint}
-            >
+            <div className="email-form-wrapper">
               <input
-                type="email"
+                type="text"
                 id="email"
                 name="email"
-                placeholder="you@example.com"
+                placeholder="Email"
                 className="email-field"
-                required
               />
-
-              {/* Hidden field sends the guidance text to the PHP mailer */}
-              <input
-                type="hidden"
-                name="message"
-                value={emailBody}
-                readOnly
-              />
-
-              <input
-                type="hidden"
-                name="subject"
-                value="Your Paper Prisons ID results"
-                readOnly
-              />
-
-              <input
-                type="hidden"
-                name="message_html"
-                value={emailHtml}
-                readOnly
-              />
-
               <input
                 type="submit"
-                value="Email me my guidance"
+                value="Submit"
                 className="dynamic-form-button active"
-                disabled={!emailBody}
               />
-            </form>
-
-            {/* Optional helper text for the user */}
-            <p className="dynamic-form-output-message">
-              We’ll email exactly what you see in the results above. No extra
-              data is shared.
-            </p>
+            </div>
           </div>
-
           <div className="dynamic-form-output-item">
             <p className="dynamic-form-output-item-title">Contact</p>
             {CONTACT_PLACEHOLDER}
