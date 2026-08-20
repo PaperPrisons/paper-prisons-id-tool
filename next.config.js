@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   assetPrefix: process.env.DEBUG
     ? null
-    : "https://paperprisons.github.io/paper-prisons-id-tool/",
+    : "https://id.paperprisons.org/",
 };
 
 module.exports = nextConfig;
