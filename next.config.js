@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  assetPrefix: process.env.DEBUG
-    ? null
-    : "https://id.paperprisons.org/",
+  output: 'export',
 };
 
 module.exports = nextConfig;
